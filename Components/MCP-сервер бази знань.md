@@ -16,7 +16,7 @@ updated: 2026-10-26
 
 # MCP-сервер бази знань
 
-Компонент **harness**, а не застосунку: MCP-сервер `fridge-kb` (TypeScript, `@modelcontextprotocol/sdk`, транспорт stdio) у директорії `mcp-server/` репозиторію застосунку. Єдиний дозволений шлях доступу агента до цього vault (див. [[ADR-0005 Окремий репозиторій бази знань із доступом через MCP]]). Реалізовано в коміті 84a435b ([[feat(mcp-server) fridge-kb MCP connector to knowledge base vault]]); реєстрація в `.mcp.json` — у [[chore register fridge-kb and read-only GitHub MCP servers]], див. також [[Конфігурація agent harness]].
+Компонент **harness**, а не застосунку: MCP-сервер `fridge-kb` (TypeScript, `@modelcontextprotocol/sdk`, транспорт stdio) у директорії `mcp-server/` репозиторію застосунку. Єдиний дозволений шлях доступу агента до цього vault (див. [[ADR-0005 Окремий репозиторій бази знань із доступом через MCP]]). Реалізовано в коміті 84a435b ([[Реалізація MCP-сервера fridge-kb]]); реєстрація в `.mcp.json` — у [[Реєстрація MCP-серверів у .mcp.json]], див. також [[Конфігурація agent harness]].
 
 ## Інструменти
 

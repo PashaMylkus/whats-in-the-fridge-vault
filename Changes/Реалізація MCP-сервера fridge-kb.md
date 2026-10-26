@@ -1,7 +1,7 @@
 ---
 id: change-84a435b
 type: change
-title: feat(mcp-server) fridge-kb MCP connector to knowledge base vault
+title: Реалізація MCP-сервера fridge-kb
 aliases: []
 tags: [change]
 status: done
@@ -15,7 +15,7 @@ created: 2026-10-26
 updated: 2026-10-26
 ---
 
-# feat(mcp-server) fridge-kb MCP connector to knowledge base vault
+# Реалізація MCP-сервера fridge-kb
 
 Реалізовано MCP-сервер `fridge-kb` — [[MCP-сервер бази знань]], єдиний шлях доступу агента до vault згідно з [[ADR-0005 Окремий репозиторій бази знань із доступом через MCP]].
 
