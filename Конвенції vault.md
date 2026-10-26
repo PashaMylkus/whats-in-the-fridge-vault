@@ -41,8 +41,8 @@ updated: 2026-10-26
 | Тип | Додаткові поля | Допустимі `status` |
 |---|---|---|
 | `concept` | `requirements` — FR-xx | `active`, `deprecated` |
-| `component` | `layer` (web, api, shared, db, harness), `path`, `implements`, `depends_on` | `planned`, `in-progress`, `implemented`, `deprecated` |
-| `decision` | `adr`, `date`, `deciders`, `supersedes` | `proposed`, `accepted`, `superseded`, `deprecated` |
+| `component` | `layer` (web, api, shared, db, harness), `path`, `requirements`, `implements`, `depends_on` | `planned`, `in-progress`, `implemented`, `deprecated` |
+| `decision` | `adr`, `date`, `deciders`, `supersedes`, `applies_to` | `proposed`, `accepted`, `superseded`, `deprecated` |
 | `glossary` | `term_en` | `active`, `deprecated` |
 | `change` | `kind` (feature, fix, docs, refactor, test, chore), `date`, `commit`, `pr`, `affects` | `done` |
 
@@ -51,7 +51,7 @@ updated: 2026-10-26
 ## Лінкування
 
 - Кожне згадування поняття, що має власну нотатку, оформлюється як `[[wiki-посилання]]` хоча б один раз у нотатці; для відмінків — `[[Продукт|продуктів]]`.
-- `depends_on` у компонентах містить посилання `"[[Назва]]"`.
+- Типізовані відношення (`depends_on`, `implements`, `applies_to`, `supersedes`, `affects`) записуються у frontmatter як посилання `"[[Назва]]"`; їх domain і range визначено в [[Онтологія застосунку]].
 - Кожна нотатка досяжна з [[MOC-Застосунок]]; нотатки без вхідних посилань (сироти) не допускаються.
 - Шаблони: `Templates/Concept.md`, `Templates/Component.md`, `Templates/Decision.md`, `Templates/Glossary.md`, `Templates/Change.md`.
 - Нотатки `change` для комітів мають `id` виду `change-<sha7>` — повторний запис того самого коміту оновлює, а не дублює нотатку.

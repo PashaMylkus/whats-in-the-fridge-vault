@@ -15,8 +15,8 @@ const IGNORE_FILES = new Set(['README.md']);
 const COMMON = ['id', 'type', 'title', 'aliases', 'tags', 'status', 'source', 'created', 'updated'];
 const SCHEMA = {
   concept:   { folder: 'Concepts',   fields: ['requirements'], status: ['active', 'deprecated'] },
-  component: { folder: 'Components', fields: ['layer', 'path', 'implements', 'depends_on'], status: ['planned', 'in-progress', 'implemented', 'deprecated'] },
-  decision:  { folder: 'Decisions',  fields: ['adr', 'date', 'deciders', 'supersedes'], status: ['proposed', 'accepted', 'superseded', 'deprecated'] },
+  component: { folder: 'Components', fields: ['layer', 'path', 'requirements', 'implements', 'depends_on'], status: ['planned', 'in-progress', 'implemented', 'deprecated'] },
+  decision:  { folder: 'Decisions',  fields: ['adr', 'date', 'deciders', 'supersedes', 'applies_to'], status: ['proposed', 'accepted', 'superseded', 'deprecated'] },
   glossary:  { folder: 'Glossary',   fields: ['term_en'], status: ['active', 'deprecated'] },
   change:    { folder: 'Changes',    fields: ['kind', 'date', 'commit', 'pr', 'affects'], status: ['done'] },
   moc:       { folder: '',           fields: [], status: ['active'] },
@@ -24,6 +24,16 @@ const SCHEMA = {
 };
 const LAYERS = ['web', 'api', 'shared', 'db', 'harness'];
 const KINDS = ['feature', 'fix', 'docs', 'refactor', 'test', 'chore'];
+// Онтологія: типізовані відношення (domain → range), див. «Онтологія застосунку»
+const RELATIONS = {
+  depends_on: { domain: ['component'], range: ['component'] },
+  implements: { domain: ['component'], range: ['concept'] },
+  applies_to: { domain: ['decision'], range: ['component', 'concept'], min: 1 },
+  supersedes: { domain: ['decision'], range: ['decision'], max: 1 },
+  affects:    { domain: ['change'], range: ['component', 'concept', 'decision'] },
+};
+const relTargets = (v) => (v == null ? [] : Array.isArray(v) ? v : [v])
+  .map((x) => String(x).match(/^\[\[([^\]|#]+)/)?.[1]?.trim() ?? `\u0000${x}`);
 
 // ---------- мінімальний парсер YAML-frontmatter (key: scalar | [flow, list]) ----------
 function parseScalar(s) {
@@ -116,6 +126,27 @@ for (const [name, n] of notes) {
 }
 const uniq = [...new Map(edges.map((e) => [e.join('→'), e])).values()];
 
+// типізовані відношення: domain, range, кратність, існування цілі
+let typedCount = 0;
+for (const [name, n] of notes) {
+  for (const [rel, r] of Object.entries(RELATIONS)) {
+    if (!(rel in n.fm)) continue;
+    if (!r.domain.includes(n.fm.type)) { errors.push(`${n.rel}: відношення ${rel} недопустиме для типу ${n.fm.type}`); continue; }
+    const targets = relTargets(n.fm[rel]);
+    if (r.min && targets.length < r.min) errors.push(`${n.rel}: ${rel} потребує щонайменше ${r.min} цілі`);
+    if (r.max && targets.length > r.max) errors.push(`${n.rel}: ${rel} допускає не більше ${r.max} цілі`);
+    for (const t of targets) {
+      if (t.startsWith('\u0000')) { errors.push(`${n.rel}: ${rel} має містити wiki-посилання, а не "${t.slice(1)}"`); continue; }
+      const target = notes.get(t) ?? notes.get(lower.get(t.toLowerCase()));
+      if (!target) continue; // нерозв'язне посилання вже зафіксовано вище
+      if (target === n) errors.push(`${n.rel}: ${rel} вказує на саму нотатку`);
+      else if (!r.range.includes(target.fm.type)) errors.push(`${n.rel}: ${rel} → [[${t}]] (${target.fm.type}) поза range ${r.range.join('|')}`);
+      else if (rel === 'supersedes' && target.fm.status !== 'superseded') errors.push(`${n.rel}: замінене рішення [[${t}]] має мати status superseded`);
+      else typedCount++;
+    }
+  }
+}
+
 // досяжність з кореневої MOC (за вихідними посиланнями)
 const out = new Map([...notes.keys()].map((k) => [k, new Set()]));
 const inc = new Map([...notes.keys()].map((k) => [k, new Set()]));
@@ -140,6 +171,7 @@ console.log(`Vault: ${ROOT}`);
 console.log(`Нотаток: ${notes.size}  (${Object.entries(byType).map(([t, c]) => `${t}: ${c}`).join(', ')})`);
 console.log(`Унікальних зв'язків: ${uniq.length}, середній ступінь вузла: ${(2 * uniq.length / notes.size).toFixed(1)}`);
 console.log(`Досяжні з ${ROOT_MOC}: ${seen.size}/${notes.size} (напряму: ${direct}, макс. глибина: ${Math.max(...Object.values(depth))})`);
+console.log(`Типізованих зв'язків: ${typedCount}`);
 console.log(`Сироти: ${orphans.length}, нерозв'язні посилання: ${errors.filter((e) => e.includes("нерозв'язне")).length}`);
 console.log(`Найзв'язніші: ${degree.slice(0, 5).map(([k, d]) => `${k} (${d})`).join(', ')}`);
 for (const w of warn) console.log(`WARN  ${w}`);

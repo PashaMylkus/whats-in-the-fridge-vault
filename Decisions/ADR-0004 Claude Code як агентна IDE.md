@@ -9,6 +9,7 @@ adr: 4
 date: 2026-10-26
 deciders: [Милькус Павло]
 supersedes: null
+applies_to: ["[[Конфігурація agent harness]]"]
 source: "whats-in-the-fridge@e2a30f4:docs/harness-requirements.md"
 created: 2026-10-26
 updated: 2026-10-26

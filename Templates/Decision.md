@@ -9,6 +9,7 @@ adr: 0
 date: "{{date}}"
 deciders: []
 supersedes: null
+applies_to: []
 source: ""
 created: "{{date}}"
 updated: "{{date}}"

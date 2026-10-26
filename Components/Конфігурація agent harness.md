@@ -7,6 +7,7 @@ tags: [component, layer/harness]
 status: planned
 layer: harness
 path: .claude
+requirements: []
 implements: []
 depends_on: ["[[MCP-сервер бази знань]]"]
 source: "whats-in-the-fridge@e2a30f4:docs/harness-requirements.md"

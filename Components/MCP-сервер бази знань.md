@@ -7,8 +7,9 @@ tags: [component, layer/harness]
 status: implemented
 layer: harness
 path: mcp-server
+requirements: []
 implements: []
-depends_on: ["[[Конвенції vault]]"]
+depends_on: []
 source: "whats-in-the-fridge@e2a30f4:docs/harness-requirements.md"
 created: 2026-10-26
 updated: 2026-10-26

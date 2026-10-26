@@ -7,7 +7,8 @@ tags: [component, layer/api]
 status: planned
 layer: api
 path: apps/api
-implements: [FR-01, FR-02, FR-04, FR-05, FR-06, FR-07, FR-08, FR-09, FR-10]
+requirements: [FR-01, FR-02, FR-04, FR-05, FR-06, FR-07, FR-08, FR-09, FR-10]
+implements: []
 depends_on: ["[[Спільний пакет]]", "[[База даних]]"]
 source: "whats-in-the-fridge@e2a30f4:docs/app-requirements.md"
 created: 2026-10-26
