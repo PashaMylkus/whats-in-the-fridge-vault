@@ -91,3 +91,4 @@ updated: 2026-10-26
 Завершені задачі та зміни в репозиторії застосунку; нотатки додаються інструментом `ingest_note` [[MCP-сервер бази знань|MCP-сервера fridge-kb]].
 
 - [[feat(mcp-server) fridge-kb MCP connector to knowledge base vault]]
+- [[chore register fridge-kb and read-only GitHub MCP servers]]
