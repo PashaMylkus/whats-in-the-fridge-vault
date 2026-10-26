@@ -22,6 +22,7 @@ updated: 2026-10-26
 | `Components/` | `component` | модулі та компоненти кодової бази (по одній нотатці на компонент) |
 | `Decisions/` | `decision` | архітектурні рішення у форматі [[ADR]] |
 | `Glossary/` | `glossary` | терміни з коротким визначенням |
+| `Changes/` | `change` | журнал завершених задач і змін у репозиторії застосунку (створюються інструментом `ingest_note`) |
 | корінь | `moc`, `guide` | [[Map of Content|MOC-нотатки]] та ця нотатка |
 | `Templates/` | — | шаблони frontmatter для плагіна Templates |
 
@@ -43,6 +44,7 @@ updated: 2026-10-26
 | `component` | `layer` (web, api, shared, db, harness), `path`, `implements`, `depends_on` | `planned`, `in-progress`, `implemented`, `deprecated` |
 | `decision` | `adr`, `date`, `deciders`, `supersedes` | `proposed`, `accepted`, `superseded`, `deprecated` |
 | `glossary` | `term_en` | `active`, `deprecated` |
+| `change` | `kind` (feature, fix, docs, refactor, test, chore), `date`, `commit`, `pr`, `affects` | `done` |
 
 `source` вказує першоджерело та коміт у форматі `репозиторій@коміт:шлях` — агент може перевірити актуальність нотатки. Якщо нотатка суперечить коду, пріоритет має код, а нотатка оновлюється.
 
@@ -51,4 +53,5 @@ updated: 2026-10-26
 - Кожне згадування поняття, що має власну нотатку, оформлюється як `[[wiki-посилання]]` хоча б один раз у нотатці; для відмінків — `[[Продукт|продуктів]]`.
 - `depends_on` у компонентах містить посилання `"[[Назва]]"`.
 - Кожна нотатка досяжна з [[MOC-Застосунок]]; нотатки без вхідних посилань (сироти) не допускаються.
-- Шаблони: `Templates/Concept.md`, `Templates/Component.md`, `Templates/Decision.md`, `Templates/Glossary.md`.
+- Шаблони: `Templates/Concept.md`, `Templates/Component.md`, `Templates/Decision.md`, `Templates/Glossary.md`, `Templates/Change.md`.
+- Нотатки `change` для комітів мають `id` виду `change-<sha7>` — повторний запис того самого коміту оновлює, а не дублює нотатку.

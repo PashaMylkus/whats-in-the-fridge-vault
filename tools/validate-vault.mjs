@@ -18,10 +18,12 @@ const SCHEMA = {
   component: { folder: 'Components', fields: ['layer', 'path', 'implements', 'depends_on'], status: ['planned', 'in-progress', 'implemented', 'deprecated'] },
   decision:  { folder: 'Decisions',  fields: ['adr', 'date', 'deciders', 'supersedes'], status: ['proposed', 'accepted', 'superseded', 'deprecated'] },
   glossary:  { folder: 'Glossary',   fields: ['term_en'], status: ['active', 'deprecated'] },
+  change:    { folder: 'Changes',    fields: ['kind', 'date', 'commit', 'pr', 'affects'], status: ['done'] },
   moc:       { folder: '',           fields: [], status: ['active'] },
   guide:     { folder: '',           fields: [], status: ['active'] },
 };
 const LAYERS = ['web', 'api', 'shared', 'db', 'harness'];
+const KINDS = ['feature', 'fix', 'docs', 'refactor', 'test', 'chore'];
 
 // ---------- мінімальний парсер YAML-frontmatter (key: scalar | [flow, list]) ----------
 function parseScalar(s) {
@@ -90,6 +92,7 @@ for (const path of walk(ROOT)) {
   if (!/^[a-z]+-[a-z0-9-]+$/.test(String(fm.id))) errors.push(`${rel}: id "${fm.id}" не відповідає шаблону <type>-<slug>`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(String(fm.created)) || !/^\d{4}-\d{2}-\d{2}$/.test(String(fm.updated))) errors.push(`${rel}: дати created/updated не у форматі YYYY-MM-DD`);
   if (fm.type === 'component' && !LAYERS.includes(fm.layer)) errors.push(`${rel}: недопустимий layer "${fm.layer}"`);
+  if (fm.type === 'change' && !KINDS.includes(fm.kind)) errors.push(`${rel}: недопустимий kind "${fm.kind}"`);
   if (fm.type === 'decision' && !name.startsWith(`ADR-${String(fm.adr).padStart(4, '0')} `)) errors.push(`${rel}: назва не відповідає номеру adr`);
   if (!/^[\w.-]+@[0-9a-f]{7,40}:/.test(String(fm.source))) warn.push(`${rel}: source без коміту`);
   if (notes.has(name)) errors.push(`${rel}: дубль назви файлу "${name}"`);
