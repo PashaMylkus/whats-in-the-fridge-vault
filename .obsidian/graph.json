@@ -1,0 +1,48 @@
+{
+  "search": "-path:Templates",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "colorGroups": [
+    {
+      "query": "path:Concepts",
+      "color": {
+        "a": 1,
+        "rgb": 2792847
+      }
+    },
+    {
+      "query": "path:Components",
+      "color": {
+        "a": 1,
+        "rgb": 4878245
+      }
+    },
+    {
+      "query": "path:Decisions",
+      "color": {
+        "a": 1,
+        "rgb": 15167313
+      }
+    },
+    {
+      "query": "path:Glossary",
+      "color": {
+        "a": 1,
+        "rgb": 15320170
+      }
+    },
+    {
+      "query": "file:MOC",
+      "color": {
+        "a": 1,
+        "rgb": 8072383
+      }
+    }
+  ],
+  "showArrow": true,
+  "textFadeMultiplier": 0,
+  "nodeSizeMultiplier": 1.2,
+  "lineSizeMultiplier": 1
+}
